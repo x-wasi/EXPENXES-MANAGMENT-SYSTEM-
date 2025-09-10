@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advanced Expense Tracker</title>
+  <title>Secure Expense Tracker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -33,6 +33,128 @@
       background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
       position: relative;
       overflow-x: hidden;
+    }
+    
+    /* Login Screen Styles */
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.8s ease;
+      z-index: 100;
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .login-header h1 {
+      color: var(--primary);
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .login-header p {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+    
+    .login-form .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .login-form .form-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    .login-form input {
+      width: 100%;
+      padding: 14px 15px 14px 45px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      transition: var(--transition);
+      background-color: var(--light);
+    }
+    
+    .login-form input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      outline: none;
+      background-color: white;
+    }
+    
+    .login-form button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: var(--transition);
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .login-form button:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+    }
+    
+    .login-form button:active {
+      transform: translateY(1px);
+    }
+    
+    .login-error {
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 15px;
+      text-align: center;
+      display: none;
+    }
+    
+    .login-options {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    .login-options a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .login-options a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Main App Styles - Hidden by default */
+    .main-app {
+      display: none;
+      width: 100%;
     }
     
     /* Animated background elements */
@@ -137,11 +259,13 @@
       color: white;
       padding: 25px 30px;
       text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
     .card-header h1 {
       font-size: 2.2rem;
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -151,6 +275,24 @@
     .card-header p {
       font-size: 1rem;
       opacity: 0.9;
+    }
+    
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+    
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
     
     .tabs {
@@ -761,6 +903,37 @@
       color: var(--danger);
     }
     
+    /* Settings Modal */
+    .settings-section {
+      margin-bottom: 25px;
+    }
+    
+    .settings-section h3 {
+      color: var(--dark);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .settings-form .form-group {
+      margin-bottom: 0;
+    }
+    
+    .settings-form input {
+      padding: 12px 15px;
+    }
+    
+    .settings-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
     /* Print Styles */
     @media print {
       body * {
@@ -797,12 +970,21 @@
         min-width: 100%;
       }
       
+      .card-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
       .card-header h1 {
         font-size: 1.8rem;
       }
     }
     
     @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+      
       .card {
         border-radius: 15px;
       }
@@ -840,360 +1022,453 @@
     <span></span>
   </div>
   
-  <div class="card">
-    <div class="card-header">
-      <h1><i class="fas fa-wallet"></i> Advanced Expense Tracker</h1>
-      <p>Track your expenses efficiently with powerful features</p>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-container">
+    <div class="login-header">
+      <h1><i class="fas fa-wallet"></i> Expense Tracker</h1>
+      <p>Please enter your password to continue</p>
     </div>
     
-    <div class="tabs">
-      <button class="tab active" onclick="openTab(event, 'dashboard')">
-        <i class="fas fa-tachometer-alt"></i> Dashboard
+    <form id="loginForm" class="login-form">
+      <div class="form-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Enter Password" required>
+      </div>
+      
+      <button type="submit">
+        <i class="fas fa-sign-in-alt"></i> Login
       </button>
-      <button class="tab" onclick="openTab(event, 'expenses')">
-        <i class="fas fa-list"></i> Expenses
-      </button>
-      <button class="tab" onclick="openTab(event, 'categories')">
-        <i class="fas fa-tags"></i> Categories
-      </button>
-      <button class="tab" onclick="openTab(event, 'budget')">
-        <i class="fas fa-piggy-bank"></i> Budget
-      </button>
-      <button class="tab" onclick="openTab(event, 'recurring')">
-        <i class="fas fa-sync-alt"></i> Recurring
-      </button>
-      <button class="tab" onclick="openTab(event, 'reports')">
-        <i class="fas fa-chart-bar"></i> Reports
-      </button>
+    </form>
+    
+    <div id="loginError" class="login-error">
+      Incorrect password. Please try again.
     </div>
     
-    <!-- Dashboard Tab -->
-    <div id="dashboard" class="tab-content active">
-      <div class="stats-grid">
-        <div class="stat-box">
-          <h4>Total Expenses</h4>
-          <p id="dashboardTotalAmount">Rs. 0.00</p>
-        </div>
-        <div class="stat-box">
-          <h4>Transactions</h4>
-          <p id="dashboardTotalTransactions">0</p>
-        </div>
-        <div class="stat-box">
-          <h4>This Month</h4>
-          <p id="dashboardMonthAmount">Rs. 0.00</p>
-        </div>
-        <div class="stat-box">
-          <h4>Budget Left</h4>
-          <p id="dashboardBudgetLeft">Rs. 0.00</p>
-        </div>
-      </div>
-      
-      <div class="chart-container">
-        <canvas id="categoryChart"></canvas>
-      </div>
-      
-      <div class="chart-container">
-        <canvas id="monthlyChart"></canvas>
-      </div>
+    <div class="login-options">
+      <p>Default password: <strong>admin123</strong></p>
+      <p>You can change this in Settings after logging in.</p>
     </div>
-    
-    <!-- Expenses Tab -->
-    <div id="expenses" class="tab-content">
-      <div class="form-container">
-        <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
-        <form id="expenseForm">
-          <div class="form-group">
-            <i class="fas fa-tag"></i>
-            <input type="text" name="expdec" id="expdec" placeholder="Expense Type" required>
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-money-bill-wave"></i>
-            <input type="number" name="amt" id="amt" placeholder="Amount" required step="0.01">
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-align-left"></i>
-            <input type="text" name="dec" id="dec" placeholder="Description">
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-calendar-alt"></i>
-            <input type="date" name="date" id="date" required>
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-folder"></i>
-            <select name="category" id="category">
-              <option value="">Select Category</option>
-            </select>
-          </div>
-          
-          <button type="submit">
-            <i class="fas fa-save"></i> Save Expense
-          </button>
-        </form>
-        
-        <div id="response"></div>
+  </div>
+  
+  <!-- Main Application (Hidden by default) -->
+  <div id="mainApp" class="main-app">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h1><i class="fas fa-wallet"></i> Advanced Expense Tracker</h1>
+          <p>Track your expenses efficiently with powerful features</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
       </div>
       
-      <div class="filter-container">
-        <div class="filter-row">
-          <div class="filter-group">
-            <label for="filterStartDate">Start Date</label>
-            <input type="date" id="filterStartDate">
+      <div class="tabs">
+        <button class="tab active" onclick="openTab(event, 'dashboard')">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </button>
+        <button class="tab" onclick="openTab(event, 'expenses')">
+          <i class="fas fa-list"></i> Expenses
+        </button>
+        <button class="tab" onclick="openTab(event, 'categories')">
+          <i class="fas fa-tags"></i> Categories
+        </button>
+        <button class="tab" onclick="openTab(event, 'budget')">
+          <i class="fas fa-piggy-bank"></i> Budget
+        </button>
+        <button class="tab" onclick="openTab(event, 'recurring')">
+          <i class="fas fa-sync-alt"></i> Recurring
+        </button>
+        <button class="tab" onclick="openTab(event, 'reports')">
+          <i class="fas fa-chart-bar"></i> Reports
+        </button>
+        <button class="tab" onclick="openTab(event, 'settings')">
+          <i class="fas fa-cog"></i> Settings
+        </button>
+      </div>
+      
+      <!-- Dashboard Tab -->
+      <div id="dashboard" class="tab-content active">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <h4>Total Expenses</h4>
+            <p id="dashboardTotalAmount">Rs. 0.00</p>
           </div>
-          
-          <div class="filter-group">
-            <label for="filterEndDate">End Date</label>
-            <input type="date" id="filterEndDate">
+          <div class="stat-box">
+            <h4>Transactions</h4>
+            <p id="dashboardTotalTransactions">0</p>
           </div>
-          
-          <div class="filter-group">
-            <label for="filterCategory">Category</label>
-            <select id="filterCategory">
-              <option value="">All Categories</option>
-            </select>
+          <div class="stat-box">
+            <h4>This Month</h4>
+            <p id="dashboardMonthAmount">Rs. 0.00</p>
           </div>
-          
-          <div class="filter-group">
-            <label for="filterSort">Sort By</label>
-            <select id="filterSort">
-              <option value="date-desc">Date (Newest First)</option>
-              <option value="date-asc">Date (Oldest First)</option>
-              <option value="amount-desc">Amount (Highest First)</option>
-              <option value="amount-asc">Amount (Lowest First)</option>
-            </select>
+          <div class="stat-box">
+            <h4>Budget Left</h4>
+            <p id="dashboardBudgetLeft">Rs. 0.00</p>
           </div>
         </div>
         
-        <div class="action-buttons">
-          <button class="action-btn btn-primary" onclick="applyFilters()">
-            <i class="fas fa-filter"></i> Apply Filters
-          </button>
-          <button class="action-btn btn-success" onclick="exportToCSV()">
-            <i class="fas fa-file-csv"></i> Export to CSV
-          </button>
-          <button class="action-btn btn-warning" onclick="exportToPDF()">
-            <i class="fas fa-file-pdf"></i> Export to PDF
-          </button>
-          <button class="action-btn btn-danger" onclick="printReport()">
-            <i class="fas fa-print"></i> Print Report
-          </button>
-          <button class="action-btn btn-primary" onclick="syncExpenses()">
-            <i class="fas fa-sync-alt"></i> Sync Expenses
-          </button>
+        <div class="chart-container">
+          <canvas id="categoryChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+          <canvas id="monthlyChart"></canvas>
         </div>
       </div>
       
-      <div class="list">
-        <h4>
-          <span><i class="fas fa-list"></i> Expense List</span>
-          <span id="expenseCount">0 expenses</span>
-        </h4>
-        <ul id="expenseList">
-          <div class="empty-state">
-            <i class="fas fa-receipt"></i>
-            <p>No expenses added yet</p>
-          </div>
-        </ul>
-      </div>
-    </div>
-    
-    <!-- Categories Tab -->
-    <div id="categories" class="tab-content">
-      <div class="form-container">
-        <h2><i class="fas fa-plus-circle"></i> Add New Category</h2>
-        <form id="categoryForm">
-          <div class="form-group">
-            <i class="fas fa-tag"></i>
-            <input type="text" name="categoryName" id="categoryName" placeholder="Category Name" required>
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-palette"></i>
-            <input type="color" name="categoryColor" id="categoryColor" value="#4361ee">
-          </div>
-          
-          <button type="submit">
-            <i class="fas fa-save"></i> Save Category
-          </button>
-        </form>
-        
-        <div id="categoryResponse"></div>
-      </div>
-      
-      <div class="category-container">
-        <h3><i class="fas fa-tags"></i> Expense Categories</h3>
-        <div class="category-list" id="categoryList">
-          <!-- Categories will be populated here -->
-        </div>
-      </div>
-    </div>
-    
-    <!-- Budget Tab -->
-    <div id="budget" class="tab-content">
-      <div class="form-container">
-        <h2><i class="fas fa-piggy-bank"></i> Set Monthly Budget</h2>
-        <form id="budgetForm">
-          <div class="form-group">
-            <i class="fas fa-money-bill-wave"></i>
-            <input type="number" name="budgetAmount" id="budgetAmount" placeholder="Monthly Budget Amount" required step="0.01">
-          </div>
-          
-          <button type="submit">
-            <i class="fas fa-save"></i> Save Budget
-          </button>
-        </form>
-        
-        <div id="budgetResponse"></div>
-      </div>
-      
-      <div class="budget-container">
-        <div class="budget-header">
-          <h3><i class="fas fa-chart-line"></i> Budget Overview</h3>
-          <span id="budgetPercentage">0%</span>
-        </div>
-        
-        <div class="budget-progress">
-          <div class="budget-bar" id="budgetBar" style="width: 0%"></div>
-        </div>
-        
-        <div class="budget-info">
-          <span>Spent: <strong id="budgetSpent">Rs. 0.00</strong></span>
-          <span>Budget: <strong id="budgetTotal">Rs. 0.00</strong></span>
-          <span>Left: <strong id="budgetRemaining">Rs. 0.00</strong></span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Recurring Tab -->
-    <div id="recurring" class="tab-content">
-      <div class="form-container">
-        <h2><i class="fas fa-plus-circle"></i> Add Recurring Expense</h2>
-        <form id="recurringForm">
-          <div class="form-group">
-            <i class="fas fa-tag"></i>
-            <input type="text" name="recurringName" id="recurringName" placeholder="Expense Name" required>
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-money-bill-wave"></i>
-            <input type="number" name="recurringAmount" id="recurringAmount" placeholder="Amount" required step="0.01">
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-align-left"></i>
-            <input type="text" name="recurringDesc" id="recurringDesc" placeholder="Description">
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-calendar-alt"></i>
-            <select name="recurringFrequency" id="recurringFrequency">
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly" selected>Monthly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <i class="fas fa-folder"></i>
-            <select name="recurringCategory" id="recurringCategory">
-              <option value="">Select Category</option>
-            </select>
-          </div>
-          
-          <button type="submit">
-            <i class="fas fa-save"></i> Save Recurring Expense
-          </button>
-        </form>
-        
-        <div id="recurringResponse"></div>
-      </div>
-      
-      <div class="recurring-container">
-        <h3><i class="fas fa-sync-alt"></i> Recurring Expenses</h3>
-        <div class="recurring-list" id="recurringList">
-          <div class="empty-state">
-            <i class="fas fa-clock"></i>
-            <p>No recurring expenses added yet</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Reports Tab -->
-    <div id="reports" class="tab-content">
-      <div class="report-options">
-        <h3><i class="fas fa-file-alt"></i> Generate Report</h3>
-        <div class="report-grid">
-          <div class="report-card" onclick="generateReport('monthly')">
-            <i class="fas fa-calendar-alt"></i>
-            <h4>Monthly Report</h4>
-            <p>View expenses for the current month</p>
-          </div>
-          
-          <div class="report-card" onclick="generateReport('yearly')">
-            <i class="fas fa-calendar"></i>
-            <h4>Yearly Report</h4>
-            <p>View expenses for the current year</p>
-          </div>
-          
-          <div class="report-card" onclick="generateReport('category')">
-            <i class="fas fa-tags"></i>
-            <h4>Category Report</h4>
-            <p>View expenses by category</p>
-          </div>
-          
-          <div class="report-card" onclick="generateReport('custom')">
-            <i class="fas fa-cog"></i>
-            <h4>Custom Report</h4>
-            <p>Generate a custom date range report</p>
-          </div>
-        </div>
-      </div>
-      
-      <div id="customReportModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3>Custom Date Range Report</h3>
-            <button class="close-btn" onclick="closeModal('customReportModal')">&times;</button>
-          </div>
-          
-          <form id="customReportForm">
+      <!-- Expenses Tab -->
+      <div id="expenses" class="tab-content">
+        <div class="form-container">
+          <h2><i class="fas fa-plus-circle"></i> Add New Expense</h2>
+          <form id="expenseForm">
             <div class="form-group">
-              <label for="customStartDate">Start Date</label>
-              <input type="date" id="customStartDate" required>
+              <i class="fas fa-tag"></i>
+              <input type="text" name="expdec" id="expdec" placeholder="Expense Type" required>
             </div>
             
             <div class="form-group">
-              <label for="customEndDate">End Date</label>
-              <input type="date" id="customEndDate" required>
+              <i class="fas fa-money-bill-wave"></i>
+              <input type="number" name="amt" id="amt" placeholder="Amount" required step="0.01">
             </div>
             
             <div class="form-group">
-              <label for="customCategory">Category (Optional)</label>
-              <select id="customCategory">
-                <option value="">All Categories</option>
+              <i class="fas fa-align-left"></i>
+              <input type="text" name="dec" id="dec" placeholder="Description">
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="date" id="date" required>
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-folder"></i>
+              <select name="category" id="category">
+                <option value="">Select Category</option>
               </select>
             </div>
             
             <button type="submit">
-              <i class="fas fa-file-alt"></i> Generate Report
+              <i class="fas fa-save"></i> Save Expense
             </button>
           </form>
+          
+          <div id="response"></div>
+        </div>
+        
+        <div class="filter-container">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="filterStartDate">Start Date</label>
+              <input type="date" id="filterStartDate">
+            </div>
+            
+            <div class="filter-group">
+              <label for="filterEndDate">End Date</label>
+              <input type="date" id="filterEndDate">
+            </div>
+            
+            <div class="filter-group">
+              <label for="filterCategory">Category</label>
+              <select id="filterCategory">
+                <option value="">All Categories</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label for="filterSort">Sort By</label>
+              <select id="filterSort">
+                <option value="date-desc">Date (Newest First)</option>
+                <option value="date-asc">Date (Oldest First)</option>
+                <option value="amount-desc">Amount (Highest First)</option>
+                <option value="amount-asc">Amount (Lowest First)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="action-btn btn-primary" onclick="applyFilters()">
+              <i class="fas fa-filter"></i> Apply Filters
+            </button>
+            <button class="action-btn btn-success" onclick="exportToCSV()">
+              <i class="fas fa-file-csv"></i> Export to CSV
+            </button>
+            <button class="action-btn btn-warning" onclick="exportToPDF()">
+              <i class="fas fa-file-pdf"></i> Export to PDF
+            </button>
+            <button class="action-btn btn-danger" onclick="printReport()">
+              <i class="fas fa-print"></i> Print Report
+            </button>
+            <button class="action-btn btn-primary" onclick="syncExpenses()">
+              <i class="fas fa-sync-alt"></i> Sync Expenses
+            </button>
+          </div>
+        </div>
+        
+        <div class="list">
+          <h4>
+            <span><i class="fas fa-list"></i> Expense List</span>
+            <span id="expenseCount">0 expenses</span>
+          </h4>
+          <ul id="expenseList">
+            <div class="empty-state">
+              <i class="fas fa-receipt"></i>
+              <p>No expenses added yet</p>
+            </div>
+          </ul>
         </div>
       </div>
       
-      <div id="reportResult" class="list" style="display: none;">
-        <h4>
-          <span><i class="fas fa-file-alt"></i> Report Results</span>
-          <span id="reportResultCount">0 expenses</span>
-        </h4>
-        <ul id="reportResultList">
-          <!-- Report results will be populated here -->
-        </ul>
+      <!-- Categories Tab -->
+      <div id="categories" class="tab-content">
+        <div class="form-container">
+          <h2><i class="fas fa-plus-circle"></i> Add New Category</h2>
+          <form id="categoryForm">
+            <div class="form-group">
+              <i class="fas fa-tag"></i>
+              <input type="text" name="categoryName" id="categoryName" placeholder="Category Name" required>
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-palette"></i>
+              <input type="color" name="categoryColor" id="categoryColor" value="#4361ee">
+            </div>
+            
+            <button type="submit">
+              <i class="fas fa-save"></i> Save Category
+            </button>
+          </form>
+          
+          <div id="categoryResponse"></div>
+        </div>
+        
+        <div class="category-container">
+          <h3><i class="fas fa-tags"></i> Expense Categories</h3>
+          <div class="category-list" id="categoryList">
+            <!-- Categories will be populated here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Budget Tab -->
+      <div id="budget" class="tab-content">
+        <div class="form-container">
+          <h2><i class="fas fa-piggy-bank"></i> Set Monthly Budget</h2>
+          <form id="budgetForm">
+            <div class="form-group">
+              <i class="fas fa-money-bill-wave"></i>
+              <input type="number" name="budgetAmount" id="budgetAmount" placeholder="Monthly Budget Amount" required step="0.01">
+            </div>
+            
+            <button type="submit">
+              <i class="fas fa-save"></i> Save Budget
+            </button>
+          </form>
+          
+          <div id="budgetResponse"></div>
+        </div>
+        
+        <div class="budget-container">
+          <div class="budget-header">
+            <h3><i class="fas fa-chart-line"></i> Budget Overview</h3>
+            <span id="budgetPercentage">0%</span>
+          </div>
+          
+          <div class="budget-progress">
+            <div class="budget-bar" id="budgetBar" style="width: 0%"></div>
+          </div>
+          
+          <div class="budget-info">
+            <span>Spent: <strong id="budgetSpent">Rs. 0.00</strong></span>
+            <span>Budget: <strong id="budgetTotal">Rs. 0.00</strong></span>
+            <span>Left: <strong id="budgetRemaining">Rs. 0.00</strong></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recurring Tab -->
+      <div id="recurring" class="tab-content">
+        <div class="form-container">
+          <h2><i class="fas fa-plus-circle"></i> Add Recurring Expense</h2>
+          <form id="recurringForm">
+            <div class="form-group">
+              <i class="fas fa-tag"></i>
+              <input type="text" name="recurringName" id="recurringName" placeholder="Expense Name" required>
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-money-bill-wave"></i>
+              <input type="number" name="recurringAmount" id="recurringAmount" placeholder="Amount" required step="0.01">
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-align-left"></i>
+              <input type="text" name="recurringDesc" id="recurringDesc" placeholder="Description">
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-calendar-alt"></i>
+              <select name="recurringFrequency" id="recurringFrequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly" selected>Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <i class="fas fa-folder"></i>
+              <select name="recurringCategory" id="recurringCategory">
+                <option value="">Select Category</option>
+              </select>
+            </div>
+            
+            <button type="submit">
+              <i class="fas fa-save"></i> Save Recurring Expense
+            </button>
+          </form>
+          
+          <div id="recurringResponse"></div>
+        </div>
+        
+        <div class="recurring-container">
+          <h3><i class="fas fa-sync-alt"></i> Recurring Expenses</h3>
+          <div class="recurring-list" id="recurringList">
+            <div class="empty-state">
+              <i class="fas fa-clock"></i>
+              <p>No recurring expenses added yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Reports Tab -->
+      <div id="reports" class="tab-content">
+        <div class="report-options">
+          <h3><i class="fas fa-file-alt"></i> Generate Report</h3>
+          <div class="report-grid">
+            <div class="report-card" onclick="generateReport('monthly')">
+              <i class="fas fa-calendar-alt"></i>
+              <h4>Monthly Report</h4>
+              <p>View expenses for the current month</p>
+            </div>
+            
+            <div class="report-card" onclick="generateReport('yearly')">
+              <i class="fas fa-calendar"></i>
+              <h4>Yearly Report</h4>
+              <p>View expenses for the current year</p>
+            </div>
+            
+            <div class="report-card" onclick="generateReport('category')">
+              <i class="fas fa-tags"></i>
+              <h4>Category Report</h4>
+              <p>View expenses by category</p>
+            </div>
+            
+            <div class="report-card" onclick="generateReport('custom')">
+              <i class="fas fa-cog"></i>
+              <h4>Custom Report</h4>
+              <p>Generate a custom date range report</p>
+            </div>
+          </div>
+        </div>
+        
+        <div id="customReportModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Custom Date Range Report</h3>
+              <button class="close-btn" onclick="closeModal('customReportModal')">&times;</button>
+            </div>
+            
+            <form id="customReportForm">
+              <div class="form-group">
+                <label for="customStartDate">Start Date</label>
+                <input type="date" id="customStartDate" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="customEndDate">End Date</label>
+                <input type="date" id="customEndDate" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="customCategory">Category (Optional)</label>
+                <select id="customCategory">
+                  <option value="">All Categories</option>
+                </select>
+              </div>
+              
+              <button type="submit">
+                <i class="fas fa-file-alt"></i> Generate Report
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <div id="reportResult" class="list" style="display: none;">
+          <h4>
+            <span><i class="fas fa-file-alt"></i> Report Results</span>
+            <span id="reportResultCount">0 expenses</span>
+          </h4>
+          <ul id="reportResultList">
+            <!-- Report results will be populated here -->
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Settings Tab -->
+      <div id="settings" class="tab-content">
+        <div class="form-container">
+          <h2><i class="fas fa-cog"></i> Application Settings</h2>
+          
+          <div class="settings-section">
+            <h3>Change Password</h3>
+            <form id="passwordForm" class="settings-form">
+              <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="currentPassword" placeholder="Current Password" required>
+              </div>
+              
+              <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input type="password" id="newPassword" placeholder="New Password" required minlength="6">
+              </div>
+              
+              <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input type="password" id="confirmPassword" placeholder="Confirm New Password" required minlength="6">
+              </div>
+              
+              <div class="settings-buttons">
+                <button type="submit" class="action-btn btn-primary">
+                  <i class="fas fa-save"></i> Change Password
+                </button>
+              </div>
+            </form>
+            
+            <div id="passwordResponse"></div>
+          </div>
+          
+          <div class="settings-section">
+            <h3>Data Management</h3>
+            <div class="action-buttons">
+              <button class="action-btn btn-success" onclick="exportData()">
+                <i class="fas fa-download"></i> Export All Data
+              </button>
+              <button class="action-btn btn-warning" onclick="document.getElementById('importData').click()">
+                <i class="fas fa-upload"></i> Import Data
+              </button>
+              <button class="action-btn btn-danger" onclick="confirmClearData()">
+                <i class="fas fa-trash-alt"></i> Clear All Data
+              </button>
+            </div>
+            
+            <input type="file" id="importData" style="display: none;" onchange="importData(event)">
+            
+            <div id="dataResponse"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1216,27 +1491,61 @@
     let monthlyChart = null;
     
     // DOM elements
+    const loginForm = document.getElementById("loginForm");
+    const passwordForm = document.getElementById("passwordForm");
     const expenseForm = document.getElementById("expenseForm");
     const categoryForm = document.getElementById("categoryForm");
     const budgetForm = document.getElementById("budgetForm");
     const recurringForm = document.getElementById("recurringForm");
     const customReportForm = document.getElementById("customReportForm");
     
+    const loginError = document.getElementById("loginError");
+    const passwordResponse = document.getElementById("passwordResponse");
     const responseDiv = document.getElementById("response");
     const categoryResponseDiv = document.getElementById("categoryResponse");
     const budgetResponseDiv = document.getElementById("budgetResponse");
     const recurringResponseDiv = document.getElementById("recurringResponse");
+    const dataResponse = document.getElementById("dataResponse");
     
     const expenseList = document.getElementById("expenseList");
     const categoryList = document.getElementById("categoryList");
     const recurringList = document.getElementById("recurringList");
     const reportResultList = document.getElementById("reportResultList");
     
-    // Set today's date as default
-    document.getElementById('date').valueAsDate = new Date();
+    // Check if user is logged in
+    window.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+    });
     
-    // Initialize the app
-    document.addEventListener('DOMContentLoaded', function() {
+    // Check login status
+    function checkLoginStatus() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      const storedPassword = localStorage.getItem('appPassword');
+      
+      // If no password is set, set the default password
+      if (!storedPassword) {
+        localStorage.setItem('appPassword', btoa('admin123')); // btoa is a simple base64 encoding
+      }
+      
+      if (isLoggedIn === 'true') {
+        showMainApp();
+      } else {
+        showLoginScreen();
+      }
+    }
+    
+    // Show login screen
+    function showLoginScreen() {
+      document.getElementById('loginScreen').style.display = 'block';
+      document.getElementById('mainApp').style.display = 'none';
+    }
+    
+    // Show main app
+    function showMainApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
+      // Initialize the app
       loadFromLocalStorage();
       updateCategoryDropdowns();
       renderCategories();
@@ -1246,7 +1555,179 @@
       updateBudgetDisplay();
       initializeCharts();
       checkRecurringExpenses();
+    }
+    
+    // Login form submission
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const enteredPassword = document.getElementById('password').value;
+      const storedPassword = localStorage.getItem('appPassword');
+      
+      // Compare entered password with stored password
+      if (btoa(enteredPassword) === storedPassword) {
+        // Set login status
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        // Show main app
+        showMainApp();
+        
+        // Reset form
+        loginForm.reset();
+        loginError.style.display = 'none';
+      } else {
+        // Show error
+        loginError.style.display = 'block';
+        
+        // Shake the login container
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          loginContainer.style.animation = '';
+        }, 500);
+      }
     });
+    
+    // Logout function
+    function logout() {
+      localStorage.setItem('isLoggedIn', 'false');
+      showLoginScreen();
+    }
+    
+    // Password form submission
+    passwordForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const storedPassword = localStorage.getItem('appPassword');
+      
+      // Verify current password
+      if (btoa(currentPassword) !== storedPassword) {
+        showResponse(passwordResponse, "❌ Current password is incorrect", "error");
+        return;
+      }
+      
+      // Verify new passwords match
+      if (newPassword !== confirmPassword) {
+        showResponse(passwordResponse, "❌ New passwords do not match", "error");
+        return;
+      }
+      
+      // Update password
+      localStorage.setItem('appPassword', btoa(newPassword));
+      
+      // Show success message
+      showResponse(passwordResponse, "✅ Password changed successfully!", "success");
+      
+      // Reset form
+      passwordForm.reset();
+    });
+    
+    // Export data
+    function exportData() {
+      const data = {
+        expenses: expenses,
+        categories: categories,
+        recurringExpenses: recurringExpenses,
+        budget: budget,
+        exportDate: new Date().toISOString()
+      };
+      
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      
+      const exportFileDefaultName = 'expense-tracker-data.json';
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+      
+      showResponse(dataResponse, "✅ Data exported successfully!", "success");
+    }
+    
+    // Import data
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          
+          // Validate data structure
+          if (data.expenses && data.categories && data.recurringExpenses !== undefined) {
+            // Import data
+            expenses = data.expenses || [];
+            categories = data.categories || [];
+            recurringExpenses = data.recurringExpenses || [];
+            budget = data.budget || 0;
+            
+            // Save to localStorage
+            saveToLocalStorage();
+            
+            // Update UI
+            updateCategoryDropdowns();
+            renderCategories();
+            renderExpenses();
+            renderRecurringExpenses();
+            updateDashboard();
+            updateBudgetDisplay();
+            updateCharts();
+            
+            showResponse(dataResponse, "✅ Data imported successfully!", "success");
+          } else {
+            showResponse(dataResponse, "❌ Invalid data format", "error");
+          }
+        } catch (error) {
+          showResponse(dataResponse, "❌ Error parsing data: " + error.message, "error");
+        }
+      };
+      
+      reader.readAsText(file);
+      
+      // Reset file input
+      event.target.value = '';
+    }
+    
+    // Confirm clear data
+    function confirmClearData() {
+      if (confirm("Are you sure you want to clear all data? This action cannot be undone.")) {
+        // Clear all data
+        expenses = [];
+        recurringExpenses = [];
+        budget = 0;
+        
+        // Keep default categories
+        categories = [
+          { id: 1, name: 'Food', color: '#4361ee' },
+          { id: 2, name: 'Transport', color: '#4cc9f0' },
+          { id: 3, name: 'Entertainment', color: '#ff006e' },
+          { id: 4, name: 'Utilities', color: '#ffbe0b' },
+          { id: 5, name: 'Healthcare', color: '#06ffa5' }
+        ];
+        
+        // Save to localStorage
+        saveToLocalStorage();
+        
+        // Update UI
+        updateCategoryDropdowns();
+        renderCategories();
+        renderExpenses();
+        renderRecurringExpenses();
+        updateDashboard();
+        updateBudgetDisplay();
+        updateCharts();
+        
+        showResponse(dataResponse, "✅ All data cleared successfully!", "success");
+      }
+    }
+    
+    // Set today's date as default
+    document.getElementById('date').valueAsDate = new Date();
     
     // Tab functionality
     function openTab(evt, tabName) {
@@ -2370,6 +2851,17 @@
     function closeModal(modalId) {
       document.getElementById(modalId).classList.remove('active');
     }
+    
+    // Add shake animation for login error
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+        20%, 40%, 60%, 80% { transform: translateX(10px); }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
